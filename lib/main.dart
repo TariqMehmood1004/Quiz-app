@@ -42,6 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,10 +68,48 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.4,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
+            decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(
+                  14.0,
+                )),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    onPressed: _decrementCounter,
+                    tooltip: 'Decrement',
+                    child: const Text(
+                      '-',
+                      style: TextStyle(
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    onPressed: _incrementCounter,
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
