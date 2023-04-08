@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utilities/Colors/colors.dart';
 
@@ -14,12 +15,18 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
-
+  double angle = 0;
   bool isDrawerOpen = false;
 
-  drawer(double x, double y, double scale, bool isTrue) {
+  drawer(
+      {double x = 0,
+      double y = 0,
+      double scale = 0,
+      double angle = 0,
+      bool isTrue = false}) {
     xOffset = x; //200;
     yOffset = y; //80;
+    angle = angle; //6
     scaleFactor = scale; // 0.8;
     isDrawerOpen = isTrue; // true
   }
@@ -28,10 +35,11 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffset, yOffset, 0)
-        ..scale(scaleFactor),
-      duration: const Duration(milliseconds: 220),
+        ..scale(scaleFactor)
+        ..rotateZ(angle),
+      duration: const Duration(milliseconds: 180),
       decoration: BoxDecoration(
-        color: AppColors.color1,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(isDrawerOpen ? 30.0 : 0.0),
       ),
       child: Column(
@@ -53,6 +61,7 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                           setState(() {
                             xOffset = 0;
                             yOffset = 0;
+                            angle = 0;
                             scaleFactor = 1;
                             isDrawerOpen = false;
                           });
@@ -64,11 +73,11 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                     : InkWell(
                         onTap: () {
                           setState(() {
-                            // xOffset = 260;
-                            // yOffset = 220;
-                            // scaleFactor = 0.6;
-                            // isDrawerOpen = true;
-                            drawer(200, 80, 0.7, true);
+                            xOffset = 200;
+                            yOffset = 120;
+                            scaleFactor = 0.75;
+                            angle = 6;
+                            isDrawerOpen = true;
                           });
                         },
                         child: const Icon(
@@ -77,11 +86,17 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                       ),
                 Column(
                   children: [
-                    Text(
-                      'Quiz App'.toUpperCase(),
-                      style: TextStyle(
-                        color: AppColors.color2,
-                        fontSize: 20,
+                    Container(
+                      margin: const EdgeInsets.only(right: 100),
+                      child: Text(
+                        'Notio Quizzie '.toUpperCase(),
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            color: AppColors.color3,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     )
                   ],
