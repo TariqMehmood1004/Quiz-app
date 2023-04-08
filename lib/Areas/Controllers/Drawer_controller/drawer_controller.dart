@@ -14,7 +14,7 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.color3,
         borderRadius: BorderRadius.circular(0.0),
       ),
     );

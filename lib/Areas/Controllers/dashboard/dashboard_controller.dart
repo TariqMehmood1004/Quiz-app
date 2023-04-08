@@ -17,12 +17,19 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
 
   bool isDrawerOpen = false;
 
+  drawer(double x, double y, double scale, bool isTrue) {
+    xOffset = x; //200;
+    yOffset = y; //80;
+    scaleFactor = scale; // 0.8;
+    isDrawerOpen = isTrue; // true
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffset, yOffset, 0)
         ..scale(scaleFactor),
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 220),
       decoration: BoxDecoration(
         color: AppColors.color1,
         borderRadius: BorderRadius.circular(isDrawerOpen ? 30.0 : 0.0),
@@ -51,16 +58,17 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                           });
                         },
                         child: const Icon(
-                          Icons.close,
+                          Icons.arrow_back_ios,
                         ),
                       )
                     : InkWell(
                         onTap: () {
                           setState(() {
-                            xOffset = 280;
-                            yOffset = 170;
-                            scaleFactor = 0.6;
-                            isDrawerOpen = true;
+                            // xOffset = 260;
+                            // yOffset = 220;
+                            // scaleFactor = 0.6;
+                            // isDrawerOpen = true;
+                            drawer(200, 80, 0.7, true);
                           });
                         },
                         child: const Icon(
@@ -71,14 +79,16 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                   children: [
                     Text(
                       'Quiz App'.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.green,
+                      style: TextStyle(
+                        color: AppColors.color2,
                         fontSize: 20,
                       ),
                     )
                   ],
                 ),
-                const CircleAvatar(),
+                const CircleAvatar(
+                  backgroundImage: AssetImage('images/tm.jpg'),
+                ),
               ],
             ),
           )
