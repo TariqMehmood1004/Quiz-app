@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utilities/Colors/colors.dart';
+import '../../Views/courses/Flutter/flutter_course_contents.dart';
+// import '../../Views/page_view_builder/builder.dart';
+import '../widgets/text_widget.dart';
 
 class DashboardControllerScreen extends StatefulWidget {
   const DashboardControllerScreen({super.key});
@@ -47,7 +49,7 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
           Container(
             width: double.infinity,
             margin: const EdgeInsets.only(top: 50, left: 20, right: 20.0),
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(0.0),
@@ -84,29 +86,28 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                           Icons.menu_rounded,
                         ),
                       ),
-                Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 100),
-                      child: Text(
-                        'Notio Quizzie '.toUpperCase(),
-                        style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            color: AppColors.color3,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
                 const CircleAvatar(
+                  radius: 17,
                   backgroundImage: AssetImage('images/tm.jpg'),
                 ),
               ],
             ),
-          )
+          ),
+          SizedBox(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(left: 20.0, top: 15.0),
+                  color: AppColors.tranparent,
+                  child: TextWidget("Courses".toUpperCase(), 18.0,
+                      AppColors.black, FontWeight.w600, 2, TextAlign.start),
+                ),
+                const FlutterCourseContentsController(),
+              ],
+            ),
+          ),
+          // const PageViewForQuestions(),
         ],
       ),
     );
