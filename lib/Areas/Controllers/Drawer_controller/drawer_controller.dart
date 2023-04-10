@@ -1,8 +1,9 @@
-import 'package:app/Areas/Controllers/dashboard/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../utilities/Colors/colors.dart';
+import '../mcqs/mcqs_controller.dart';
+import '../true_false/true_false.dart';
 import '../widgets/text_widget.dart';
 
 class DrawerControllerScreen extends StatefulWidget {
@@ -94,8 +95,51 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const DashboardControllerScreen(),
+                              builder: (context) => const MCQSController(),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Container(
+                        padding: const EdgeInsets.all(5.0),
+                        color: AppColors.tranparent,
+                        margin: const EdgeInsets.symmetric(vertical: 3.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Image(
+                              width: 20,
+                              height: 20,
+                              image: AssetImage('images/mcqs.png'),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextWidget(
+                              "MCQs",
+                              12.0,
+                              AppColors.black,
+                              FontWeight.w500,
+                              0,
+                              TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(
+                        () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TrueFalseController(),
                             ),
                           );
                         },
@@ -112,13 +156,13 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                           const Image(
                             width: 20,
                             height: 20,
-                            image: AssetImage('images/mcqs.png'),
+                            image: AssetImage('images/mcqs2.png'),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           TextWidget(
-                            "MCQs",
+                            "True/False",
                             12.0,
                             AppColors.black,
                             FontWeight.w500,
@@ -127,33 +171,6 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(5.0),
-                    color: AppColors.tranparent,
-                    margin: const EdgeInsets.symmetric(vertical: 3.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Image(
-                          width: 20,
-                          height: 20,
-                          image: AssetImage('images/mcqs2.png'),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        TextWidget(
-                          "True/False",
-                          12.0,
-                          AppColors.black,
-                          FontWeight.w500,
-                          0,
-                          TextAlign.center,
-                        ),
-                      ],
                     ),
                   ),
                 ],
