@@ -1,6 +1,5 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../utilities/Colors/colors.dart';
 import '../mcqs/mcqs_controller.dart';
 import '../true_false/true_false.dart';
@@ -27,11 +26,13 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              width: 300,
               padding: const EdgeInsets.all(8.0),
               margin:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
               decoration: BoxDecoration(
-                color: AppColors.tranparent,
+                color: AppColors.black,
+                borderRadius: BorderRadius.circular(5.0),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,9 +47,9 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                   ),
                   TextWidget(
                     "Tariq Mehmood".toUpperCase(),
-                    16.0,
-                    AppColors.black,
-                    FontWeight.w500,
+                    14.0,
+                    AppColors.white,
+                    FontWeight.w600,
                     0,
                     TextAlign.center,
                   ),
@@ -66,23 +67,20 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                     Container(
                       width: double.infinity,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 10.0),
+                          horizontal: 0.0, vertical: 10.0),
+                      padding: const EdgeInsets.all(7.0),
                       decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: .4, color: AppColors.white),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          color: AppColors.black,
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0),
                         child: Text(
-                          'Question Type'.toUpperCase(),
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1,
-                            ),
+                          'Question Type',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1,
                           ),
                         ),
                       ),
@@ -104,42 +102,42 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                           },
                         );
                       },
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Container(
-                          padding: const EdgeInsets.all(5.0),
-                          margin: const EdgeInsets.symmetric(vertical: 3.0),
-                          decoration: BoxDecoration(
-                            color: AppColors.tranparent,
-                            border: Border(
-                              bottom: BorderSide(
-                                width: .1,
-                                color: AppColors.bluePink2,
+                      child: Container(
+                        padding: const EdgeInsets.all(7.0),
+                        margin: const EdgeInsets.symmetric(vertical: 3.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.tranparent,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: AppColors.black.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Image(
+                              child: Image(
                                 width: 20,
                                 height: 20,
-                                image: AssetImage('images/mcqs.png'),
+                                color: AppColors.black,
+                                image: const AssetImage('images/question.png'),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              TextWidget(
-                                "MCQs",
-                                12.0,
-                                AppColors.black,
-                                FontWeight.w500,
-                                0,
-                                TextAlign.center,
-                              ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            TextWidget(
+                              "MCQs",
+                              12.0,
+                              Colors.black,
+                              FontWeight.w400,
+                              0,
+                              TextAlign.center,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -158,25 +156,28 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                         );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.all(7.0),
+                        margin: const EdgeInsets.symmetric(vertical: 1.0),
                         decoration: BoxDecoration(
                           color: AppColors.tranparent,
-                          border: Border(
-                            bottom: BorderSide(
-                              width: .1,
-                              color: AppColors.bluePink2,
-                            ),
-                          ),
+                          borderRadius: BorderRadius.circular(4.0),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Image(
-                              width: 20,
-                              height: 20,
-                              image: AssetImage('images/mcqs2.png'),
+                            Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: AppColors.black.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Image(
+                                width: 20,
+                                height: 20,
+                                color: AppColors.black.withOpacity(0.7),
+                                image: const AssetImage('images/mcqs2.png'),
+                              ),
                             ),
                             const SizedBox(
                               width: 10,
@@ -185,12 +186,48 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                               "True/False",
                               12.0,
                               AppColors.black,
-                              FontWeight.w500,
+                              FontWeight.w400,
                               0,
                               TextAlign.center,
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                exit(0);
+              },
+              child: Container(
+                width: 70,
+                padding: const EdgeInsets.all(6.0),
+                margin: const EdgeInsets.only(bottom: 50, left: 40),
+                decoration: BoxDecoration(
+                  color: AppColors.blue,
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      size: 12,
+                      color: AppColors.white,
+                    ),
+                    Text(
+                      'Logout',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                        letterSpacing: 1,
                       ),
                     ),
                   ],

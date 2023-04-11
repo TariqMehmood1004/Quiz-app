@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // ignore: non_constant_identifier_names
 Widget TextWidget(String? title, double? fSize, Color? fColor,
@@ -6,11 +7,13 @@ Widget TextWidget(String? title, double? fSize, Color? fColor,
   return Text(
     title.toString(),
     textAlign: align,
-    style: TextStyle(
-      color: fColor,
-      fontSize: fSize,
-      fontWeight: fWeight,
-      letterSpacing: spacing,
+    style: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        color: fColor,
+        fontSize: fSize,
+        fontWeight: fWeight,
+        letterSpacing: spacing,
+      ),
     ),
   );
 }
