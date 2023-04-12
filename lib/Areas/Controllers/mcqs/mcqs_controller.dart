@@ -12,6 +12,31 @@ class MCQSController extends StatefulWidget {
 }
 
 class _MCQSControllerState extends State<MCQSController> {
+  final _controller = PageController(initialPage: 0);
+
+  bool isPressed = false;
+  bool isButtonShow = false;
+  Color isCorrect = Colors.green;
+  Color isWrong = Colors.red;
+  Color btnColor = Colors.blue;
+  int score = 0, results = 0;
+  int index = 0;
+
+  void nextQuestion() {
+    if (index == questions.length - 1) {
+      index++;
+      isPressed = false;
+    }
+  }
+
+  void changeColor() {
+    setState(() {
+      isPressed = true;
+    });
+  }
+
+  //
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +60,8 @@ class _MCQSControllerState extends State<MCQSController> {
             color: AppColors.white,
           ),
           child: PageView.builder(
+            controller: _controller,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: questions.length,
             itemBuilder: (context, index) {
               return Column(
@@ -76,8 +103,11 @@ class _MCQSControllerState extends State<MCQSController> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12.0),
@@ -98,16 +128,13 @@ class _MCQSControllerState extends State<MCQSController> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   for (int i = 0; i < questions[index].answers!.length; i++)
                     Column(
                       children: [
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.symmetric(
-                              vertical: 3.0, horizontal: 5.0),
+                              vertical: 3.0, horizontal: 10.0),
                           decoration: BoxDecoration(
                             color: AppColors.color1,
                             borderRadius: BorderRadius.circular(8.0),
@@ -118,7 +145,27 @@ class _MCQSControllerState extends State<MCQSController> {
                             hoverColor: AppColors.tranparent,
                             highlightColor: AppColors.tranparent,
                             onPressed: () {
-                              debugPrint("statement");
+                              setState(() {});
+                              if (questions[index]
+                                  .answers!
+                                  .entries
+                                  .toList()[i]
+                                  .value) {
+                                results = score + 1;
+                                _controller.nextPage(
+                                    duration: const Duration(microseconds: 250),
+                                    curve: Curves.linear);
+                                if (index >= 21) {
+                                  showModel(context, score);
+                                  results;
+                                } else {
+                                  score += 1;
+                                }
+                              } else {
+                                _controller.nextPage(
+                                    duration: const Duration(microseconds: 250),
+                                    curve: Curves.linear);
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,15 +202,72 @@ class _MCQSControllerState extends State<MCQSController> {
           ),
         ),
       ),
-      floatingActionButton: Container(
-        width: 130,
-        height: 40,
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: AppColors.black,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: AppColors.black,
+            onPressed: () {
+              // showModel(context, score);
+              _controller.previousPage(
+                  duration: const Duration(microseconds: 250),
+                  curve: Curves.linear);
+            },
+            child: const Icon(Icons.arrow_back_ios),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<dynamic> showModel(BuildContext context, int result) {
+    return showModalBottomSheet(
+        isScrollControlled: false,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+        ),
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Center(
+              child: Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.tranparent,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Result:',
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 30,
+                        fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      result.toString(),
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 30,
+                        fontFamily: 'Open Sans',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
