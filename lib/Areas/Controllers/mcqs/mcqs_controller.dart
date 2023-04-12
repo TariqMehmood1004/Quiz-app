@@ -20,20 +20,6 @@ class _MCQSControllerState extends State<MCQSController> {
   Color isWrong = Colors.red;
   Color btnColor = Colors.blue;
   int score = 0, results = 0;
-  int index = 0;
-
-  void nextQuestion() {
-    if (index == questions.length - 1) {
-      index++;
-      isPressed = false;
-    }
-  }
-
-  void changeColor() {
-    setState(() {
-      isPressed = true;
-    });
-  }
 
   //
   //
@@ -91,7 +77,7 @@ class _MCQSControllerState extends State<MCQSController> {
                           ),
                         ),
                         Text(
-                          "$index / ${questions.length}",
+                          "${index + 1} / ${questions.length}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -155,11 +141,12 @@ class _MCQSControllerState extends State<MCQSController> {
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
-                                if (index >= 21) {
+                                if (index == questions.length - 1) {
                                   showModel(context, score);
                                   results;
                                 } else {
-                                  score += 1;
+                                  showModel(context, score);
+                                  results;
                                 }
                               } else {
                                 _controller.nextPage(

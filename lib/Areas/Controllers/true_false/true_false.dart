@@ -1,9 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../../../utilities/Colors/colors.dart';
-import '../../Models/Question_list/list.dart';
 import '../../Models/true_false_list/true_false_list.dart';
 
 class TrueFalseController extends StatefulWidget {
@@ -22,21 +19,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
   Color isWrong = Colors.red;
   Color btnColor = Colors.blue;
   int score = 0, results = 0;
-  int index = 0;
-  int length = trueFalseQuestions.length;
-
-  void nextQuestion() {
-    if (index == questions.length - 1) {
-      index++;
-      isPressed = false;
-    }
-  }
-
-  void changeColor() {
-    setState(() {
-      isPressed = true;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +45,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
           child: PageView.builder(
             controller: _controller,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: length,
+            itemCount: trueFalseQuestions.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -92,7 +74,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                           ),
                         ),
                         Text(
-                          "$index / $length",
+                          "${index + 1} / ${trueFalseQuestions.length}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -161,7 +143,8 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                           duration:
                                               const Duration(microseconds: 250),
                                           curve: Curves.linear);
-                                      if (index >= 12) {
+                                      if (index ==
+                                          trueFalseQuestions.length - 1) {
                                         showModel(context, score);
                                         results;
                                       } else {
