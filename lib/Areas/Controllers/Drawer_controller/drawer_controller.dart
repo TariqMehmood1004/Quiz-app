@@ -204,7 +204,8 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
               },
               child: Container(
                 width: 70,
-                padding: const EdgeInsets.all(6.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 margin: const EdgeInsets.only(bottom: 50, left: 40),
                 decoration: BoxDecoration(
                   color: AppColors.blue,

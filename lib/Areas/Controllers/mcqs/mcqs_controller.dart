@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:app/Areas/Models/Question_list/list.dart';
@@ -19,6 +20,8 @@ class _MCQSControllerState extends State<MCQSController> {
   bool isButtonShow = false;
   int score = 0;
 
+  Color color =
+      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
   //
   // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
@@ -34,6 +37,32 @@ class _MCQSControllerState extends State<MCQSController> {
             wrongAnswers: wrongAnswers,
           ),
         ));
+  }
+
+  int seconds = 10;
+  Timer? timer;
+  startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (seconds > 0) {
+          seconds--;
+        } else {
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
   }
 
   //
@@ -69,51 +98,81 @@ class _MCQSControllerState extends State<MCQSController> {
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 12.0),
+                        horizontal: 10.0, vertical: 16.0),
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 3.0),
+                        horizontal: 10.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       color: AppColors.black,
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Question".toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.white,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                        Container(
+                          color: AppColors.tranparent,
+                          width: 200,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Question".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                "${index + 1} / ${questions.length}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          "${index + 1} / ${questions.length}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.white,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Text(
+                              "$seconds%",
+                              style: TextStyle(
+                                color: AppColors.green2,
+                                fontSize: 10,
+                              ),
+                            ),
+                            Container(
+                              color: AppColors.tranparent,
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator(
+                                value: seconds / 7,
+                                valueColor:
+                                    AlwaysStoppedAnimation(AppColors.blue),
+                                strokeWidth: 1,
+                                backgroundColor: AppColors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 50,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
-                        color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
-                            .withOpacity(0.7),
+                        color: AppColors.color7,
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Text(
@@ -121,7 +180,7 @@ class _MCQSControllerState extends State<MCQSController> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: AppColors.black,
-                          fontSize: 14,
+                          fontSize: 12,
                           letterSpacing: 0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -133,11 +192,14 @@ class _MCQSControllerState extends State<MCQSController> {
                       children: [
                         Container(
                           width: double.infinity,
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 3.0, horizontal: 10.0),
+                          margin: const EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                            bottom: 8.0,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.color1,
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: MaterialButton(
                             splashColor: AppColors.tranparent,
@@ -155,14 +217,28 @@ class _MCQSControllerState extends State<MCQSController> {
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
+                                timer!.cancel();
+                                seconds = 10;
+                                startTimer();
                                 if (index >= 21) {
-                                  storedResult(context);
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
+                                    storedResult(context);
+                                  });
+                                } else {
+                                  timer!.cancel();
                                 }
                               } else {
                                 _controller.nextPage(
                                   duration: const Duration(microseconds: 250),
                                   curve: Curves.linear,
                                 );
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  storedResult(context);
+                                });
+                                timer!.cancel();
+                                seconds = 10;
+                                startTimer();
                               }
                             },
                             child: Row(
@@ -183,10 +259,7 @@ class _MCQSControllerState extends State<MCQSController> {
                                 Icon(
                                   Icons.check_circle,
                                   size: 18,
-                                  color: Color(
-                                          (Random().nextDouble() * 0xFFFFFF)
-                                              .toInt())
-                                      .withOpacity(1),
+                                  color: color,
                                 ),
                               ],
                             ),
@@ -239,6 +312,10 @@ class _MCQSControllerState extends State<MCQSController> {
         ],
       ),
     );
+  }
+
+  Color randomColors() {
+    return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
   }
 
   Future<dynamic> showModel(BuildContext context, int result) {

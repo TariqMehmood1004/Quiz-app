@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../utilities/Colors/colors.dart';
 import '../../Views/courses/Flutter/flutter_course_contents.dart';
-// import '../../Views/page_view_builder/builder.dart';
 import '../widgets/text_widget.dart';
 
 class DashboardControllerScreen extends StatefulWidget {
