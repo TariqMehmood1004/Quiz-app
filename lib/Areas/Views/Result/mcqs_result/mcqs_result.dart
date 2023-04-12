@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../Controllers/widgets/text_widget.dart';
 
 class MCQSResultController extends StatelessWidget {
-  const MCQSResultController({super.key, required this.result});
-  final int result;
+  const MCQSResultController(
+      {super.key,
+      required this.result,
+      required this.totalLength,
+      required this.wrongAnswers});
+  final int result, totalLength, wrongAnswers;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +44,13 @@ class MCQSResultController extends StatelessWidget {
                       // const Text("Result: ", style: ,),
                       TextWidget("Result : ", 18.0, AppColors.black,
                           FontWeight.w600, 1, TextAlign.center),
-                      TextWidget("${result.toString()} ", 20.0, AppColors.black,
-                          FontWeight.bold, 1, TextAlign.center),
+                      TextWidget(
+                          "${result.toString()} / ${totalLength.toString()} ",
+                          20.0,
+                          AppColors.black,
+                          FontWeight.bold,
+                          1,
+                          TextAlign.center),
                     ],
                   ),
                 ),
@@ -66,8 +75,13 @@ class MCQSResultController extends StatelessWidget {
                       // const Text("Result: ", style: ,),
                       TextWidget("Wrong Answers : ", 16.0, AppColors.black,
                           FontWeight.w500, 1, TextAlign.center),
-                      TextWidget("${result.toString()} ", 20.0, AppColors.black,
-                          FontWeight.w500, 1, TextAlign.center),
+                      TextWidget(
+                          "${wrongAnswers.toString()} ",
+                          20.0,
+                          AppColors.black,
+                          FontWeight.w500,
+                          1,
+                          TextAlign.center),
                     ],
                   ),
                 ),

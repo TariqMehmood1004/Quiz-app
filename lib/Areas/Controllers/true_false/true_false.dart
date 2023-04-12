@@ -14,22 +14,22 @@ class TrueFalseController extends StatefulWidget {
 class _TrueFalseControllerState extends State<TrueFalseController> {
   final _controller = PageController(initialPage: 0);
 
-  bool isPressed = false;
-  bool isButtonShow = false;
-  int correctAnswers = 0;
-  int wrongAnswers = 0;
-  Color btnColor = Colors.blue;
   int score = 0;
+  bool isPressed = false;
 
-  // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
-    int result = score;
+    int correct = score;
+    int totalQuestions = trueFalseQuestions.length;
+    int wrongAnswers = totalQuestions - correct;
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TrueFalseResultController(result: result),
-      ),
-    );
+        context,
+        MaterialPageRoute(
+          builder: (context) => TrueFalseResultController(
+            result: correct,
+            totalLength: totalQuestions,
+            wrongAnswers: wrongAnswers,
+          ),
+        ));
   }
 
   @override

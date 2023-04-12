@@ -17,20 +17,21 @@ class _MCQSControllerState extends State<MCQSController> {
 
   bool isPressed = false;
   bool isButtonShow = false;
-  Color isCorrect = Colors.green;
-  Color isWrong = Colors.red;
-  Color btnColor = Colors.blue;
   int score = 0;
 
   //
   // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
-    int result = score;
+    int correct = score;
+    int totalQuestions = questions.length;
+    int wrongAnswers = totalQuestions - correct;
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => MCQSResultController(
-            result: result,
+            result: correct,
+            totalLength: totalQuestions,
+            wrongAnswers: wrongAnswers,
           ),
         ));
   }
@@ -159,8 +160,9 @@ class _MCQSControllerState extends State<MCQSController> {
                                 }
                               } else {
                                 _controller.nextPage(
-                                    duration: const Duration(microseconds: 250),
-                                    curve: Curves.linear);
+                                  duration: const Duration(microseconds: 250),
+                                  curve: Curves.linear,
+                                );
                               }
                             },
                             child: Row(
