@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app/Areas/Models/Question_list/list.dart';
 import 'package:app/utilities/Colors/colors.dart';
 import 'package:flutter/material.dart';
+import '../../Views/Result/mcqs_result/mcqs_result.dart';
 
 class MCQSController extends StatefulWidget {
   const MCQSController({super.key});
@@ -22,6 +23,18 @@ class _MCQSControllerState extends State<MCQSController> {
   int score = 0, results = 0;
 
   //
+  // get the text in the TextField and start the Second Screen
+  void storedResult(BuildContext context) {
+    int textToSend = results;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MCQSResultController(
+            result: textToSend,
+          ),
+        ));
+  }
+
   //
   @override
   Widget build(BuildContext context) {
@@ -141,11 +154,11 @@ class _MCQSControllerState extends State<MCQSController> {
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
-                                if (index == questions.length - 1) {
-                                  showModel(context, score);
+                                if (index >= 21) {
+                                  showModel(context, results);
                                   results;
                                 } else {
-                                  showModel(context, score);
+                                  showModel(context, results);
                                   results;
                                 }
                               } else {
@@ -191,16 +204,39 @@ class _MCQSControllerState extends State<MCQSController> {
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            backgroundColor: AppColors.black,
-            onPressed: () {
-              // showModel(context, score);
-              _controller.previousPage(
-                  duration: const Duration(microseconds: 250),
-                  curve: Curves.linear);
-            },
-            child: const Icon(Icons.arrow_back_ios),
+          Container(
+            margin: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: AppColors.black,
+                  heroTag: "back",
+                  onPressed: () {
+                    // showModel(context, score);
+                    _controller.previousPage(
+                        duration: const Duration(microseconds: 250),
+                        curve: Curves.linear);
+                  },
+                  child: const Icon(Icons.arrow_back_ios),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                FloatingActionButton(
+                  backgroundColor: AppColors.black,
+                  heroTag: "result",
+                  onPressed: () {
+                    setState(() {
+                      storedResult(context);
+                    });
+                  },
+                  child: const Icon(Icons.mark_as_unread),
+                ),
+              ],
+            ),
           ),
         ],
       ),
