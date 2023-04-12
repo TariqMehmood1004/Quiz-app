@@ -20,17 +20,17 @@ class _MCQSControllerState extends State<MCQSController> {
   Color isCorrect = Colors.green;
   Color isWrong = Colors.red;
   Color btnColor = Colors.blue;
-  int score = 0, results = 0;
+  int score = 0;
 
   //
   // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
-    int textToSend = results;
+    int result = score;
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => MCQSResultController(
-            result: textToSend,
+            result: result,
           ),
         ));
   }
@@ -150,16 +150,12 @@ class _MCQSControllerState extends State<MCQSController> {
                                   .entries
                                   .toList()[i]
                                   .value) {
-                                results = score + 1;
+                                score += 1;
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
                                 if (index >= 21) {
-                                  showModel(context, results);
-                                  results;
-                                } else {
-                                  showModel(context, results);
-                                  results;
+                                  storedResult(context);
                                 }
                               } else {
                                 _controller.nextPage(
