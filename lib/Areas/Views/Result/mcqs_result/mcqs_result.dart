@@ -10,6 +10,16 @@ class MCQSResultController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.tranparent,
+        elevation: 0,
+        leading: GestureDetector(
+          // overlayColor: AppColors.tranparent,
+          child: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          onTap: () => Navigator.of(context).pop(),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../utilities/Colors/colors.dart';
 import '../../Models/true_false_list/true_false_list.dart';
+import '../../Views/Result/true_false_result/true_false_result.dart';
 
 class TrueFalseController extends StatefulWidget {
   const TrueFalseController({super.key});
@@ -15,10 +16,21 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
 
   bool isPressed = false;
   bool isButtonShow = false;
-  Color isCorrect = Colors.green;
-  Color isWrong = Colors.red;
+  int correctAnswers = 0;
+  int wrongAnswers = 0;
   Color btnColor = Colors.blue;
-  int score = 0, results = 0;
+  int score = 0;
+
+  // get the text in the TextField and start the Second Screen
+  void storedResult(BuildContext context) {
+    int result = score;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TrueFalseResultController(result: result),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,17 +150,14 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                         .entries
                                         .toList()[i]
                                         .value) {
-                                      results = score + 1;
+                                      score += 1;
                                       _controller.nextPage(
                                           duration:
                                               const Duration(microseconds: 250),
                                           curve: Curves.linear);
                                       if (index ==
                                           trueFalseQuestions.length - 1) {
-                                        showModel(context, score);
-                                        results;
-                                      } else {
-                                        score += 1;
+                                        storedResult(context);
                                       }
                                     } else {
                                       _controller.nextPage(
@@ -197,16 +206,39 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            backgroundColor: AppColors.black,
-            onPressed: () {
-              // showModel(context, score);
-              _controller.previousPage(
-                  duration: const Duration(microseconds: 250),
-                  curve: Curves.linear);
-            },
-            child: const Icon(Icons.arrow_back_ios),
+          Container(
+            margin: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  backgroundColor: AppColors.black,
+                  heroTag: "back",
+                  onPressed: () {
+                    // showModel(context, score);
+                    _controller.previousPage(
+                        duration: const Duration(microseconds: 250),
+                        curve: Curves.linear);
+                  },
+                  child: const Icon(Icons.arrow_back_ios),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                FloatingActionButton(
+                  backgroundColor: AppColors.black,
+                  heroTag: "result",
+                  onPressed: () {
+                    setState(() {
+                      storedResult(context);
+                    });
+                  },
+                  child: const Icon(Icons.mark_as_unread),
+                ),
+              ],
+            ),
           ),
         ],
       ),
