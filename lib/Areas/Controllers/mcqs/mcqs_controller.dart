@@ -260,7 +260,7 @@ class _MCQSControllerState extends State<MCQSController> {
                                 Icon(
                                   Icons.check_circle,
                                   size: 18,
-                                  color: color,
+                                  color: AppColors.color3,
                                 ),
                               ],
                             ),

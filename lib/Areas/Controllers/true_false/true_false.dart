@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../../utilities/Colors/colors.dart';
 import '../../Models/true_false_list/true_false_list.dart';
-import '../../Views/Result/true_false_result/true_false_result.dart';
+import '../../Views/Result/mcqs_result/mcqs_result.dart';
 
 class TrueFalseController extends StatefulWidget {
   const TrueFalseController({super.key});
@@ -19,18 +19,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
     return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
   }
 
-  @override
-  void initState() {
-    startTimer();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer!.cancel();
-  }
-
   int score = 0;
   bool isPressed = false;
   int seconds = 10;
@@ -41,10 +29,11 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
     int correct = score;
     int totalQuestions = trueFalseQuestions.length;
     int wrongAnswers = totalQuestions - correct;
+
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TrueFalseResultController(
+          builder: (context) => MCQSResultController(
             result: correct,
             totalLength: totalQuestions,
             wrongAnswers: wrongAnswers,
@@ -62,6 +51,18 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
         }
       });
     });
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer!.cancel();
   }
 
   @override
@@ -148,15 +149,18 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                               ),
                             ),
                             Container(
-                              color: AppColors.tranparent,
-                              width: 25,
-                              height: 25,
+                              width: 28,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: AppColors.tranparent,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                               child: CircularProgressIndicator(
                                 value: seconds / 7,
                                 valueColor:
                                     AlwaysStoppedAnimation(AppColors.blue),
                                 strokeWidth: 1,
-                                backgroundColor: AppColors.white,
+                                backgroundColor: AppColors.blue,
                               ),
                             ),
                           ],
@@ -174,10 +178,10 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Text(
-                        trueFalseQuestions[index].questionText!,
+                        trueFalseQuestions[index].questionText!.toString(),
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: AppColors.black,
+                          color: AppColors.blue,
                           fontSize: 13,
                           letterSpacing: 0,
                           fontWeight: FontWeight.w600,
@@ -214,15 +218,27 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                   .toList()[i]
                                   .value) {
                                 score += 1;
-                                _controller.nextPage(
-                                    duration: const Duration(microseconds: 250),
-                                    curve: Curves.linear);
-                                if (index >= 21) {
-                                  timer!.cancel();
+
+                                //
+                                //
+                                Future.delayed(
+                                    const Duration(milliseconds: 150), () {
+                                  _controller.nextPage(
+                                      duration:
+                                          const Duration(microseconds: 250),
+                                      curve: Curves.linear);
+                                });
+
+                                if (index >= 11) {
                                   Future.delayed(
                                       const Duration(milliseconds: 300), () {
+                                    timer!.cancel();
                                     storedResult(context);
+                                    seconds = 10;
+                                    startTimer();
                                   });
+                                } else {
+                                  timer!.cancel();
                                   seconds = 10;
                                   startTimer();
                                 }
@@ -231,7 +247,13 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                   duration: const Duration(microseconds: 250),
                                   curve: Curves.linear,
                                 );
-
+                                Future.delayed(
+                                    const Duration(milliseconds: 300), () {
+                                  timer!.cancel();
+                                  storedResult(context);
+                                  seconds = 10;
+                                  startTimer();
+                                });
                                 timer!.cancel();
                                 seconds = 10;
                                 startTimer();
@@ -259,7 +281,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                 Icon(
                                   Icons.check_circle,
                                   size: 18,
-                                  color: randomColors(),
+                                  color: AppColors.color3,
                                 ),
                               ],
                             ),
