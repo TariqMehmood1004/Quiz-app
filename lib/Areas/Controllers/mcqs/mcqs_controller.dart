@@ -22,6 +22,13 @@ class _MCQSControllerState extends State<MCQSController> {
 
   Color color =
       Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
   //
   // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
@@ -57,12 +64,6 @@ class _MCQSControllerState extends State<MCQSController> {
   void dispose() {
     timer!.cancel();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
   }
 
   //
@@ -179,10 +180,10 @@ class _MCQSControllerState extends State<MCQSController> {
                         questions[index].questionText!,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 12,
+                          color: AppColors.blue,
+                          fontSize: 13,
                           letterSpacing: 0,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -217,25 +218,25 @@ class _MCQSControllerState extends State<MCQSController> {
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
-                                timer!.cancel();
-                                seconds = 10;
-                                startTimer();
                                 if (index >= 21) {
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () {
+                                  Future.delayed(
+                                      const Duration(milliseconds: 300), () {
+                                    timer!.cancel();
                                     storedResult(context);
+                                    seconds = 10;
+                                    startTimer();
                                   });
                                 } else {
                                   timer!.cancel();
+                                  seconds = 10;
+                                  startTimer();
                                 }
                               } else {
                                 _controller.nextPage(
                                   duration: const Duration(microseconds: 250),
                                   curve: Curves.linear,
                                 );
-                                Future.delayed(const Duration(seconds: 2), () {
-                                  storedResult(context);
-                                });
+
                                 timer!.cancel();
                                 seconds = 10;
                                 startTimer();
