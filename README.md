@@ -136,10 +136,8 @@ The constructor of the QuestionModel class takes two parameters: questionText an
 
 
 
-## MCQs Model list with mapping
+### MCQs Model list with mapping
 <pre>
-  import '../Questions/question_model.dart';
-
 var questions = [
   QuestionModel(
     "What is Flutter?",
@@ -341,53 +339,187 @@ var questions = [
 The code provided defines a list of questions using the QuestionModel class in a Flutter application. Each question has a statement and a map of possible answers with their corresponding boolean values indicating whether the answer is correct or not. The QuestionModel class likely has a constructor that takes a statement and a map of answers as parameters and sets their values as instance variables. The list questions contains instances of QuestionModel with different questions and their respective answers. These questions cover various topics related to Flutter, such as its definition, development, programming language, widgets, animations, release modes, rendering engine, drawbacks, and desktop application development support, among others.
 
 
-## sdf
+### True - false Model list with mapping
+
+<pre>
+  import '../true_false/true_false_model.dart';
+
+var trueFalseQuestions = [
+  TrueFalseModel(
+    "Flutter is an open-source UI toolkit_ ",
+    {
+      "False": false,
+      "True": true,
+    },
+  ),
+  TrueFalseModel(
+    "Flutter is not a single codebase_",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "Flutter apps are built using the Dart programming language.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "Flutter have two types of widgets:.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "Flutter have two types of widgets:.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    " StatefulWidget: A widget that has mutable state.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "StatelessWidget: A widget that does not require mutable state.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "The Flutter tooling supports three modes when compiling your app, and a headless mode for testing.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "The modes are not: - Debug - Profile - Release",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "AOT (Ahead Of Time) - compiled to fast, predictable, native code_",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "JIT (Just In Time) compiled for exceptionally fast development cycles and game-changing workflow_",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+  TrueFalseModel(
+    "They are inspired from components in React.",
+    {
+      "True": true,
+      "False": false,
+    },
+  ),
+];
+
+</pre>
+
+This code appears to define a list of TrueFalseModel objects, each representing a true or false question with associated answers. The questions and answers are stored as key-value pairs in a map, where the keys are the possible answers ("True" or "False") and the values are boolean values indicating whether the answer is correct or not.
+
+The TrueFalseModel class is likely defined in the "../true_false/true_false_model.dart" file, which is imported at the beginning of the code snippet. This class likely contains properties to store the question string and the map of answers, as well as methods to access and manipulate these properties.
+
+The trueFalseQuestions list contains several TrueFalseModel objects, each representing a different question about Flutter, a popular UI toolkit for building mobile and web applications using Dart programming language. The questions cover various topics related to Flutter, such as its open-source nature, codebase structure, widget types (StatefulWidget and StatelessWidget), Flutter tooling and compilation modes (Debug, Profile, Release, AOT, JIT), and its inspiration from React components.
+
+It's worth noting that some of the statements in the questions may not be accurate or up-to-date, as the knowledge cutoff for this language model is September 2021 and Flutter is an actively evolving framework. Please refer to the official Flutter documentation for the most up-to-date and accurate information.
 
 
-## ds
-
-
-## dsf
 
 
 
-## sdf
+## Utilities
+
+
+### Colors
+
+<pre>
+class AppColors {
+  static Color color1 = const Color(0xffFDF4F5);
+  static Color color2 = const Color(0xff4D455D);
+  static Color color3 = const Color(0xffFF6E31);
+  static Color color4 = const Color(0xff3A4F7A);
+  static Color color5 = const Color(0xffE26868);
+  static Color color6 = const Color(0xffFF731D);
+  static Color color7 = const Color(0xffEDEDED);
+  static Color color8 = const Color(0xff781C68);
+  static Color bluePink = const Color(0xff372948);
+  static Color bluePink2 = const Color(0xff251B37);
+  static Color green = const Color(0xff006464);
+  static Color green2 = const Color(0xff00c8b0);
+
+  static Color white = const Color(0xffFFFFFF);
+  static Color black = const Color(0xff000000);
+  static Color blackTransparent = const Color(0xff181717);
+  static Color blue = const Color.fromARGB(255, 65, 55, 245);
+  static Color tranparent = const Color(0x004037F5);
+}
+
+</pre>
+
+This code defines a class called AppColors that contains static Color objects representing various color values in Flutter.
+
+The class AppColors has several static properties, each representing a specific color. These properties are named with descriptive names like color1, color2, color3, etc., indicating different color values. The color values are assigned using the Color constructor or the Color.fromARGB() method, which takes the RGBA values of the color as parameters.
+
+The AppColors class includes colors for various purposes, such as background colors (color1, color2, color3, etc.), accent colors (color4, color5, color6, etc.), text colors (white, black, etc.), transparent colors (blackTransparent, tranparent, etc.), and other custom colors (bluePink, bluePink2, green, green2, etc.).
+
+These color values can be used in Flutter UI code to apply consistent color schemes and styles throughout the application by referencing the static properties of the AppColors class. For example, AppColors.color1 can be used to set the background color of a widget to the color represented by color1, and so on.
 
 
 
 
-## dsf
+## Widgets controller
 
+### Text Widget()
 
+<pre>
+  // ignore: non_constant_identifier_names
+Widget TextWidget(String? title, double? fSize, Color? fColor,
+    FontWeight? fWeight, double? spacing, TextAlign? align) {
+  return Text(
+    title.toString(),
+    textAlign: align,
+    style: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        color: fColor,
+        fontSize: fSize,
+        fontWeight: fWeight,
+        letterSpacing: spacing,
+      ),
+    ),
+  );
+}
 
-## sdf
+</pre>
 
+This code defines a function called TextWidget that returns a Text widget in Flutter. The function takes several optional parameters:
 
-## ds
+title: A String representing the text content to be displayed in the Text widget.
+fSize: A double representing the font size of the text.
+fColor: A Color representing the font color of the text.
+fWeight: A FontWeight representing the font weight of the text.
+spacing: A double representing the letter spacing of the text.
+align: A TextAlign representing the text alignment within the widget.
+The Text widget is configured with the title parameter as its text content, and the textAlign, style, and other properties are set using the provided parameters.
 
+The style property of the Text widget is set using the GoogleFonts.poppins method, which is a convenient way to apply the "Poppins" font family to the text. The textStyle property of the GoogleFonts.poppins method is configured with the provided parameters such as fColor, fSize, fWeight, and spacing to apply the desired style to the text.
 
-## dsf
+Note: The comment // ignore: non_constant_identifier_names is a lint rule suppression comment that is used to ignore the violation of the naming convention for identifier names. In this case, the function name TextWidget does not follow the conventional camelCase naming convention, and the comment is used to suppress the lint warning. It's generally recommended to follow the naming conventions to write clean and readable code.
 
-
-
-## sdf
-
-
-## ds
-
-
-## dsf
-
-
-
-## sdf
-
-
-## ds
-
-
-## dsf
-
-
-
-## sdf
