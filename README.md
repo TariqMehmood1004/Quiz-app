@@ -130,8 +130,15 @@ class QuestionModel {
 }
 </pre>
 
+The QuestionModel class represents a model for a multiple-choice question in a quiz or test. It has two properties: questionText and answers.
 
-<br />
+questionText is a String? that represents the text of the question.
+answers is a Map<String, bool>? that represents the possible answers for the question, where the keys are the answer options and the values are boolean values indicating whether the answer is correct (true) or incorrect (false).
+The constructor of the QuestionModel class takes two parameters: questionText and answers, which are used to initialize the corresponding properties of the object. The questionText parameter is of type String? and represents the text of the question. The answers parameter is of type Map<String, bool>? and represents the possible answers for the question.
+
+
+
+
 ## dsf
 
 
