@@ -2,9 +2,9 @@
 
 ### This project is using the MVC software architecture pattern.
 
-# Views
+## Views
 
-## Main.dart file
+### Main.dart file
 
 The given code appears to be a Flutter application written in Dart programming language. Let me provide a brief overview of what this code does:
 
@@ -21,7 +21,7 @@ DrawerControllerScreen and DashboardControllerScreen are assumed to be custom wi
 Note: It is worth mentioning that the code snippet provided is incomplete and might not be able to run standalone. It might require additional imports and implementation of DrawerControllerScreen and DashboardControllerScreen widgets.
 
 
-## Dashboard screen controller
+### Dashboard screen controller
 
 The code provided appears to be part of a Flutter application in Dart programming language. It represents the stateful widget _DashboardControllerScreenState, which is responsible for building the UI for the dashboard screen in the application. Let me provide a brief overview of what this code does:
 
@@ -42,7 +42,7 @@ Note: It is worth mentioning that the code snippet provided is incomplete and mi
 
 
 
-## Custom drawer screen controller
+### Custom drawer screen controller
 
 The given code appears to be a Flutter widget called DrawerControllerScreen that extends StatefulWidget and contains a build method for constructing the user interface.
 
@@ -59,7 +59,7 @@ Note that some of the widgets used in this code, such as TextWidget, Image, and 
 
 
 
-## MCQs screen controller
+### MCQs screen controller
 
 he code you provided is a Flutter application code that implements a multiple-choice quiz using a PageView widget. The main features of this code are:
 
@@ -79,7 +79,7 @@ The AppColors class is used to define the colors used in the app.
 The MCQSResultController class is presumably another widget that displays the result of the quiz.
 
 
-## True False screen controller
+### True False screen controller
 
 The TrueFalseController class is a StatefulWidget in Flutter that represents a controller for a true/false quiz game. It contains a timer that counts down from a specified number of seconds, displays a question with multiple true/false options using a PageView, and calculates the user's score based on their selected answers.
 
@@ -101,7 +101,7 @@ Lifecycle methods: The initState() method is called when the widget is first cre
 
 
 
-## Result screen controller
+### Result screen controller
 
 This is a Flutter widget named MCQSResultController that extends StatefulWidget. It represents a screen that displays the result of a multiple choice question quiz. The screen contains a Scaffold widget with a white background color and an app bar with a back button. The body of the screen is divided into three sections: a result summary, a correct answer count, and a wrong answer count.
 
@@ -115,10 +115,20 @@ At the bottom of the screen, there is a container with a black transparent color
 
 
 
-# Models
+## Models
 
 
-## ds
+
+
+### Class model for MCQs
+
+class QuestionModel {
+  String? questionText;
+  Map<String, bool>? answers;
+  QuestionModel(this.questionText, this.answers);
+}
+
+
 
 
 ## dsf
