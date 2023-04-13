@@ -2,6 +2,14 @@
 
 ### This project is using the MVC software architecture pattern.
 
+### Visually output
+
+
+
+https://user-images.githubusercontent.com/116074810/231621613-b7076731-8cad-454b-9c30-b18a3c682175.mp4
+
+
+
 ## Views
 
 ### Main.dart file
