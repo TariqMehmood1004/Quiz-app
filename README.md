@@ -122,11 +122,13 @@ At the bottom of the screen, there is a container with a black transparent color
 
 ### Class model for MCQs
 
+<pre>
 class QuestionModel {
   String? questionText;
   Map<String, bool>? answers;
   QuestionModel(this.questionText, this.answers);
 }
+</pre>
 
 
 
