@@ -41,7 +41,7 @@ class _MCQSControllerState extends State<MCQSController> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MCQSResultController(
+        builder: (context) => ResultController(
           result: correct,
           totalLength: totalQuestions,
           wrongAnswers: wrongAnswers,

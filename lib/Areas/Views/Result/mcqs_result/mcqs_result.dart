@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../utilities/Colors/colors.dart';
 import '../../../Controllers/widgets/text_widget.dart';
 
-class MCQSResultController extends StatefulWidget {
-  const MCQSResultController({
+class ResultController extends StatefulWidget {
+  const ResultController({
     super.key,
     required this.result,
     required this.totalLength,
@@ -14,10 +14,10 @@ class MCQSResultController extends StatefulWidget {
   final int result, totalLength, wrongAnswers;
 
   @override
-  State<MCQSResultController> createState() => _MCQSResultControllerState();
+  State<ResultController> createState() => _MCQSResultControllerState();
 }
 
-class _MCQSResultControllerState extends State<MCQSResultController> {
+class _MCQSResultControllerState extends State<ResultController> {
   final audioPlayer = AudioCache();
   @override
   void initState() {
