@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:app/Areas/Models/Question_list/list.dart';
 import 'package:app/utilities/Colors/colors.dart';
 import 'package:flutter/material.dart';
@@ -36,22 +35,31 @@ class _MCQSControllerState extends State<MCQSController> {
     int totalQuestions = questions.length;
     int wrongAnswers = totalQuestions - correct;
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MCQSResultController(
-            result: correct,
-            totalLength: totalQuestions,
-            wrongAnswers: wrongAnswers,
-          ),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => MCQSResultController(
+          result: correct,
+          totalLength: totalQuestions,
+          wrongAnswers: wrongAnswers,
+        ),
+      ),
+    );
   }
 
   int seconds = 10;
   Timer? timer;
+
   startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        if (seconds > 0) {
+        if (seconds < 1) {
+          _controller.nextPage(
+              duration: const Duration(microseconds: 250),
+              curve: Curves.linear);
+          timer.cancel();
+          seconds = 10;
+          startTimer();
+        } else if (seconds > 0) {
           seconds--;
         } else {
           timer.cancel();
@@ -218,13 +226,12 @@ class _MCQSControllerState extends State<MCQSController> {
                                 _controller.nextPage(
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear);
+
                                 if (index >= 21) {
                                   Future.delayed(
                                       const Duration(milliseconds: 300), () {
                                     timer!.cancel();
                                     storedResult(context);
-                                    seconds = 10;
-                                    startTimer();
                                   });
                                 } else {
                                   timer!.cancel();

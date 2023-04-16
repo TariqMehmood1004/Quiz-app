@@ -13,38 +13,104 @@ class TrueFalseController extends StatefulWidget {
 }
 
 class _TrueFalseControllerState extends State<TrueFalseController> {
+  // final _controller = PageController(initialPage: 0);
+
+  // Color randomColors() {
+  //   return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
+  // }
+
+  // int score = 0;
+  // bool isPressed = false;
+  // int seconds = 10;
+  // Timer? timer;
+
+  // // get the text in the TextField and start the Second Screen
+  // void storedResult(BuildContext context) {
+  //   int correct = score;
+  //   int totalQuestions = trueFalseQuestions.length;
+  //   int wrongAnswers = totalQuestions - correct;
+
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => MCQSResultController(
+  //           result: correct,
+  //           totalLength: totalQuestions,
+  //           wrongAnswers: wrongAnswers,
+  //         ),
+  //       ));
+  // }
+
+  // startTimer() {
+  //   timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (seconds > 0) {
+  //         seconds--;
+  //       } else {
+  //         timer.cancel();
+  //       }
+  //     });
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   startTimer();
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   timer!.cancel();
+  // }
   final _controller = PageController(initialPage: 0);
 
-  Color randomColors() {
-    return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
+  bool isPressed = false;
+  bool isButtonShow = false;
+  int score = 0;
+
+  Color color =
+      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
   }
 
-  int score = 0;
-  bool isPressed = false;
-  int seconds = 10;
-  Timer? timer;
-
+  //
   // get the text in the TextField and start the Second Screen
   void storedResult(BuildContext context) {
     int correct = score;
     int totalQuestions = trueFalseQuestions.length;
     int wrongAnswers = totalQuestions - correct;
-
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MCQSResultController(
-            result: correct,
-            totalLength: totalQuestions,
-            wrongAnswers: wrongAnswers,
-          ),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (context) => MCQSResultController(
+          result: correct,
+          totalLength: totalQuestions,
+          wrongAnswers: wrongAnswers,
+        ),
+      ),
+    );
   }
+
+  int seconds = 10;
+  Timer? timer;
 
   startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        if (seconds > 0) {
+        if (seconds < 1) {
+          _controller.nextPage(
+              duration: const Duration(microseconds: 250),
+              curve: Curves.linear);
+          timer.cancel();
+          seconds = 10;
+          startTimer();
+        } else if (seconds > 0) {
           seconds--;
         } else {
           timer.cancel();
@@ -54,15 +120,9 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
   }
 
   @override
-  void initState() {
-    startTimer();
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    super.dispose();
     timer!.cancel();
+    super.dispose();
   }
 
   @override
@@ -218,9 +278,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                   .toList()[i]
                                   .value) {
                                 score += 1;
-
-                                //
-                                //
                                 Future.delayed(
                                     const Duration(milliseconds: 150), () {
                                   _controller.nextPage(
@@ -247,13 +304,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                   duration: const Duration(microseconds: 250),
                                   curve: Curves.linear,
                                 );
-                                Future.delayed(
-                                    const Duration(milliseconds: 300), () {
-                                  timer!.cancel();
-                                  storedResult(context);
-                                  seconds = 10;
-                                  startTimer();
-                                });
+
                                 timer!.cancel();
                                 seconds = 10;
                                 startTimer();
