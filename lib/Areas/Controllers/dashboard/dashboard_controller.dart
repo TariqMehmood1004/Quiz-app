@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import '../../../utilities/Colors/colors.dart';
 import '../../Views/courses/Flutter/flutter_course_contents.dart';
 import '../widgets/text_widget.dart';
@@ -12,12 +14,43 @@ class DashboardControllerScreen extends StatefulWidget {
       _DashboardControllerScreenState();
 }
 
-class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
+class _DashboardControllerScreenState extends State<DashboardControllerScreen>
+    with SingleTickerProviderStateMixin {
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
   double angle = 0;
   bool isDrawerOpen = false;
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(
+      () {
+        animationController = AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 700),
+        );
+      },
+    );
+  }
+
+  late String randomImagePath;
+  void rolling() {
+    animationController.forward(from: 0).then((value) {
+      setState(() {
+        randomImagePath = (Random().nextInt(6) + 1).toString();
+      });
+      animationController.reverse(from: 1);
+    });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   drawer(
       {double x = 0,
@@ -104,6 +137,35 @@ class _DashboardControllerScreenState extends State<DashboardControllerScreen> {
                 ),
                 const FlutterCourseContentsController(),
               ],
+            ),
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+          Container(
+            width: double.infinity,
+            height: 250,
+            decoration: BoxDecoration(
+              color: AppColors.tranparent,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                rolling();
+                AudioCache().play('music/note${Random().nextInt(7) + 1}.wav');
+              },
+              child: AnimatedBuilder(
+                animation: animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: animationController.value * pi,
+                    child: const Image(
+                      width: 150,
+                      height: 150,
+                      image: AssetImage('images/cui.png'),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           // const PageViewForQuestions(),

@@ -1,5 +1,6 @@
+// import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../utilities/Colors/colors.dart';
 import '../../../Controllers/widgets/text_widget.dart';
 
@@ -17,6 +18,13 @@ class MCQSResultController extends StatefulWidget {
 }
 
 class _MCQSResultControllerState extends State<MCQSResultController> {
+  final audioPlayer = AudioCache();
+  @override
+  void initState() {
+    audioPlayer.play('music/note3.wav');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,14 +35,15 @@ class _MCQSResultControllerState extends State<MCQSResultController> {
           backgroundColor: AppColors.white,
           elevation: 0,
           leading: GestureDetector(
-            // overlayColor: AppColors.tranparent,
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.grey,
-              size: 20,
-            ),
-            onTap: () => Navigator.of(context).pop(),
-          ),
+              // overlayColor: AppColors.tranparent,
+              child: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.grey,
+                size: 20,
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+              }),
           centerTitle: true,
         ),
         body: Column(
@@ -157,9 +166,9 @@ class _MCQSResultControllerState extends State<MCQSResultController> {
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
-                color: AppColors.blackTransparent,
+                color: AppColors.bluePink,
                 border: Border.all(
-                  color: AppColors.blackTransparent,
+                  color: AppColors.bluePink,
                 ),
               ),
               child: Center(

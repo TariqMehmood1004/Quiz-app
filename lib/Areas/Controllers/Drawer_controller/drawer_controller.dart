@@ -221,7 +221,7 @@ class _DrawerControllerScreenState extends State<DrawerControllerScreen> {
                       color: AppColors.white,
                     ),
                     Text(
-                      'Logout',
+                      'close',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.white,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:app/Areas/Models/Question_list/list.dart';
 import 'package:app/utilities/Colors/colors.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import '../../Views/Result/mcqs_result/mcqs_result.dart';
 
@@ -15,6 +16,9 @@ class MCQSController extends StatefulWidget {
 class _MCQSControllerState extends State<MCQSController> {
   final _controller = PageController(initialPage: 0);
 
+  int questionIndex = 0;
+  final audioPlayer = AudioCache();
+
   bool isPressed = false;
   bool isButtonShow = false;
   int score = 0;
@@ -24,8 +28,8 @@ class _MCQSControllerState extends State<MCQSController> {
 
   @override
   void initState() {
-    super.initState();
     startTimer();
+    super.initState();
   }
 
   //
@@ -56,6 +60,9 @@ class _MCQSControllerState extends State<MCQSController> {
           _controller.nextPage(
               duration: const Duration(microseconds: 250),
               curve: Curves.linear);
+          if (questionIndex >= questions.length - 1) {
+            storedResult(context);
+          }
           timer.cancel();
           seconds = 10;
           startTimer();
@@ -65,6 +72,9 @@ class _MCQSControllerState extends State<MCQSController> {
           timer.cancel();
         }
       });
+      // if (questionIndex >= trueFalseQuestions.length - 1) {
+      //   storedResult(context);
+      // }
     });
   }
 
@@ -85,7 +95,9 @@ class _MCQSControllerState extends State<MCQSController> {
         leading: GestureDetector(
           // overlayColor: AppColors.tranparent,
           child: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onTap: () => Navigator.of(context).pop(),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
         ),
         centerTitle: true,
       ),
@@ -102,6 +114,7 @@ class _MCQSControllerState extends State<MCQSController> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: questions.length,
             itemBuilder: (context, index) {
+              questionIndex = index;
               return Column(
                 children: [
                   Container(
@@ -216,38 +229,51 @@ class _MCQSControllerState extends State<MCQSController> {
                             hoverColor: AppColors.tranparent,
                             highlightColor: AppColors.tranparent,
                             onPressed: () {
-                              setState(() {});
-                              if (questions[index]
-                                  .answers!
-                                  .entries
-                                  .toList()[i]
-                                  .value) {
-                                score += 1;
-                                _controller.nextPage(
-                                    duration: const Duration(microseconds: 250),
-                                    curve: Curves.linear);
+                              setState(() {
+                                audioPlayer.play('music/note1.wav');
 
-                                if (index >= 21) {
-                                  Future.delayed(
-                                      const Duration(milliseconds: 300), () {
-                                    timer!.cancel();
-                                    storedResult(context);
-                                  });
-                                } else {
+                                if (questions[index]
+                                    .answers!
+                                    .entries
+                                    .toList()[i]
+                                    .value) {
+                                  score += 1;
+                                  _controller.nextPage(
+                                      duration:
+                                          const Duration(microseconds: 250),
+                                      curve: Curves.linear);
                                   timer!.cancel();
                                   seconds = 10;
-                                  startTimer();
-                                }
-                              } else {
-                                _controller.nextPage(
-                                  duration: const Duration(microseconds: 250),
-                                  curve: Curves.linear,
-                                );
 
-                                timer!.cancel();
-                                seconds = 10;
-                                startTimer();
-                              }
+                                  if (index >= questions.length - 1) {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 300), () {
+                                      timer!.cancel();
+                                      storedResult(context);
+                                    });
+                                  } else {
+                                    timer!.cancel();
+                                    seconds = 10;
+                                    startTimer();
+                                  }
+                                } else {
+                                  _controller.nextPage(
+                                    duration: const Duration(microseconds: 250),
+                                    curve: Curves.linear,
+                                  );
+                                  if (index >= questions.length - 1) {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 300), () {
+                                      timer!.cancel();
+                                      storedResult(context);
+                                    });
+                                  } else {
+                                    timer!.cancel();
+                                    seconds = 10;
+                                    startTimer();
+                                  }
+                                }
+                              });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -298,6 +324,8 @@ class _MCQSControllerState extends State<MCQSController> {
                     _controller.previousPage(
                         duration: const Duration(microseconds: 250),
                         curve: Curves.linear);
+                    seconds = 10;
+                    startTimer();
                   },
                   child: const Icon(Icons.arrow_back_ios),
                 ),
@@ -328,52 +356,52 @@ class _MCQSControllerState extends State<MCQSController> {
 
   Future<dynamic> showModel(BuildContext context, int result) {
     return showModalBottomSheet(
-        isScrollControlled: false,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
-        ),
-        context: context,
-        builder: (context) {
-          return Container(
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Center(
-              child: Container(
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                decoration: BoxDecoration(
-                  color: AppColors.tranparent,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Result:',
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 30,
-                        fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.bold,
-                      ),
+      isScrollControlled: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+      ),
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: Center(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: BoxDecoration(
+                color: AppColors.tranparent,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Result:',
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 30,
+                      fontFamily: 'Open Sans',
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      result.toString(),
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 30,
-                        fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  Text(
+                    result.toString(),
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 30,
+                      fontFamily: 'Open Sans',
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

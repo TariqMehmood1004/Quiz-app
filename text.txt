@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import '../../../utilities/Colors/colors.dart';
 import '../../Models/true_false_list/true_false_list.dart';
@@ -14,10 +13,58 @@ class TrueFalseController extends StatefulWidget {
 }
 
 class _TrueFalseControllerState extends State<TrueFalseController> {
-  final _controller = PageController(initialPage: 0);
+  // final _controller = PageController(initialPage: 0);
 
-  int questionIndex = 0;
-  final audioPlayer = AudioCache();
+  // Color randomColors() {
+  //   return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
+  // }
+
+  // int score = 0;
+  // bool isPressed = false;
+  // int seconds = 10;
+  // Timer? timer;
+
+  // // get the text in the TextField and start the Second Screen
+  // void storedResult(BuildContext context) {
+  //   int correct = score;
+  //   int totalQuestions = trueFalseQuestions.length;
+  //   int wrongAnswers = totalQuestions - correct;
+
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => MCQSResultController(
+  //           result: correct,
+  //           totalLength: totalQuestions,
+  //           wrongAnswers: wrongAnswers,
+  //         ),
+  //       ));
+  // }
+
+  // startTimer() {
+  //   timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (seconds > 0) {
+  //         seconds--;
+  //       } else {
+  //         timer.cancel();
+  //       }
+  //     });
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   startTimer();
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   timer!.cancel();
+  // }
+  final _controller = PageController(initialPage: 0);
 
   bool isPressed = false;
   bool isButtonShow = false;
@@ -28,8 +75,8 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
 
   @override
   void initState() {
-    startTimer();
     super.initState();
+    startTimer();
   }
 
   //
@@ -56,25 +103,19 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
   startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        if (seconds < 1) {
-          _controller.nextPage(
-              duration: const Duration(microseconds: 250),
-              curve: Curves.linear);
-          if (questionIndex >= trueFalseQuestions.length - 1) {
-            storedResult(context);
-          }
-          timer.cancel();
-          seconds = 10;
-          startTimer();
-        } else if (seconds > 0) {
+        if (seconds > 0) {
           seconds--;
         } else {
           timer.cancel();
+          Future.delayed(const Duration(milliseconds: 150), () {
+            _controller.nextPage(
+                duration: const Duration(microseconds: 250),
+                curve: Curves.linear);
+          });
+          seconds = 10;
+          startTimer();
         }
       });
-      // if (questionIndex >= trueFalseQuestions.length - 1) {
-      //   storedResult(context);
-      // }
     });
   }
 
@@ -84,7 +125,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
     super.dispose();
   }
 
-  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,9 +135,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
         leading: GestureDetector(
           // overlayColor: AppColors.tranparent,
           child: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onTap: () {
-            Navigator.of(context).pop();
-          },
+          onTap: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
       ),
@@ -114,7 +152,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: trueFalseQuestions.length,
             itemBuilder: (context, index) {
-              questionIndex = index;
               return Column(
                 children: [
                   Container(
@@ -165,22 +202,25 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                           alignment: Alignment.center,
                           children: [
                             Text(
-                              "$seconds%",
+                              '${seconds.toString()}%',
                               style: TextStyle(
                                 color: AppColors.green2,
                                 fontSize: 10,
                               ),
                             ),
                             Container(
-                              color: AppColors.tranparent,
-                              width: 25,
-                              height: 25,
+                              width: 28,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: AppColors.tranparent,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
                               child: CircularProgressIndicator(
                                 value: seconds / 7,
                                 valueColor:
                                     AlwaysStoppedAnimation(AppColors.blue),
                                 strokeWidth: 1,
-                                backgroundColor: AppColors.white,
+                                backgroundColor: AppColors.blue,
                               ),
                             ),
                           ],
@@ -198,7 +238,7 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Text(
-                        trueFalseQuestions[index].questionText!,
+                        trueFalseQuestions[index].questionText!.toString(),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: AppColors.blue,
@@ -232,29 +272,29 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                             highlightColor: AppColors.tranparent,
                             onPressed: () {
                               setState(() {
-                                audioPlayer.play('music/note1.wav');
-
                                 if (trueFalseQuestions[index]
                                     .answers!
                                     .entries
                                     .toList()[i]
                                     .value) {
                                   score += 1;
-                                  _controller.nextPage(
-                                      duration:
-                                          const Duration(microseconds: 250),
-                                      curve: Curves.linear);
-                                  timer!.cancel();
-                                  seconds = 10;
 
-                                  if (index >= trueFalseQuestions.length - 1) {
-                                    Future.delayed(
-                                        const Duration(milliseconds: 300), () {
+                                  if (index > trueFalseQuestions.length - 1) {
+                                    if (seconds < 0) {
                                       timer!.cancel();
-                                      storedResult(context);
-                                    });
+                                      Future.delayed(
+                                          const Duration(milliseconds: 250),
+                                          () {
+                                        storedResult(context);
+                                      });
+                                    }
                                   } else {
                                     timer!.cancel();
+                                    _controller.nextPage(
+                                      duration:
+                                          const Duration(microseconds: 250),
+                                      curve: Curves.linear,
+                                    );
                                     seconds = 10;
                                     startTimer();
                                   }
@@ -263,17 +303,10 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                     duration: const Duration(microseconds: 250),
                                     curve: Curves.linear,
                                   );
-                                  if (index >= trueFalseQuestions.length - 1) {
-                                    Future.delayed(
-                                        const Duration(milliseconds: 300), () {
-                                      timer!.cancel();
-                                      storedResult(context);
-                                    });
-                                  } else {
-                                    timer!.cancel();
-                                    seconds = 10;
-                                    startTimer();
-                                  }
+
+                                  timer!.cancel();
+                                  seconds = 10;
+                                  startTimer();
                                 }
                               });
                             },
@@ -288,7 +321,8 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                                     trueFalseQuestions[index]
                                         .answers!
                                         .keys
-                                        .toList()[i],
+                                        .toList()[i]
+                                        .toString(),
                                     textAlign: TextAlign.start,
                                     style: const TextStyle(
                                       fontSize: 11,
@@ -329,8 +363,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
                     _controller.previousPage(
                         duration: const Duration(microseconds: 250),
                         curve: Curves.linear);
-                    seconds = 10;
-                    startTimer();
                   },
                   child: const Icon(Icons.arrow_back_ios),
                 ),
@@ -353,10 +385,6 @@ class _TrueFalseControllerState extends State<TrueFalseController> {
         ],
       ),
     );
-  }
-
-  Color randomColors() {
-    return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.7);
   }
 
   Future<dynamic> showModel(BuildContext context, int result) {
