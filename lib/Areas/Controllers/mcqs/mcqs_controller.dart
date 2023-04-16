@@ -4,7 +4,8 @@ import 'package:app/Areas/Models/Question_list/list.dart';
 import 'package:app/utilities/Colors/colors.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import '../../Views/Result/mcqs_result/mcqs_result.dart';
+
+import '../../Views/Result/result/result.dart';
 
 class MCQSController extends StatefulWidget {
   const MCQSController({super.key});

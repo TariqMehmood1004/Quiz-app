@@ -4,7 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import '../../../utilities/Colors/colors.dart';
 import '../../Models/true_false_list/true_false_list.dart';
-import '../../Views/Result/mcqs_result/mcqs_result.dart';
+import '../../Views/Result/result/result.dart';
 
 class TrueFalseController extends StatefulWidget {
   const TrueFalseController({super.key});
